@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
     "next": "14.2.11",
     "react": "^18",
@@ -16,6 +17,7 @@
     "yarn": "^1.22.22"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/mongodb": "^4.0.7",
     "@types/node": "^20",
     "@types/react": "^18",

@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../lib/mongodb";
+import { authenticateToken } from "./auth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,23 +8,24 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
+      const decodedToken = authenticateToken(req, res);
+
+      if (!decodedToken) return;
+
       const { user1, user2 } = req.body;
       const client = await clientPromise;
       const db = client.db("TeleBank");
 
-      const user1Exists = await db
-        .collection("users")
-        .findOne({ username: user1 });
+      if (!(user1 === decodedToken.username)) {
+        return res.status(400).json({
+          message:
+            "usuário do token não corresponde ao usuário chamando requisição",
+        });
+      }
 
       const user2Exists = await db
         .collection("users")
         .findOne({ username: user2 });
-
-      if (!user1Exists) {
-        return res
-          .status(400)
-          .json({ message: `Usuário ${user1} não encontrado.` });
-      }
 
       if (!user2Exists) {
         return res

@@ -11,10 +11,20 @@ export default async function handler(
       const client = await clientPromise;
       const db = client.db("TeleBank");
 
-      const result = await db
+      const userExists = await db
         .collection("users")
-        .insertOne({ name, username, password });
-      res.status(201).json(result);
+        .findOne({ username: username });
+
+      if (!userExists) {
+        const result = await db
+          .collection("users")
+          .insertOne({ name, username, password });
+        res.status(201).json(result);
+      } else {
+        return res
+          .status(401)
+          .json({ message: "Nome de usuário já registrado" });
+      }
     } catch (error) {
       res.status(500).json({ message: "Erro ao criar usuário", error });
     }

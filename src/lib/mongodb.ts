@@ -1,26 +1,31 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, MongoClientOptions } from "mongodb";
 
 if (!process.env.MONGODB_URI) {
-  throw new Error("Please add your Mongo URI to .env.local");
+  throw new Error("Add Mongo URI to .env.local");
 }
 
-const uri: string = process.env.MONGODB_URI;
-const options = {};
+const uri = process.env.MONGODB_URI as string;
+const options: MongoClientOptions = {};
 
-let client: MongoClient;
-let clientPromise: Promise<MongoClient>;
+class MongoConnection {
+  static #instance: MongoConnection;
+  _mongoClientPromise: Promise<MongoClient>;
 
-if (process.env.NODE_ENV === "development") {
-  // Armazena a conexão globalmente em desenvolvimento
-  if (!(global as any)._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    (global as any)._mongoClientPromise = client.connect();
+  private constructor(connection: Promise<MongoClient>) {
+    this._mongoClientPromise = connection;
   }
-  clientPromise = (global as any)._mongoClientPromise;
-} else {
-  // Cria uma nova conexão em produção
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+
+  public static get instance(): MongoConnection {
+    if (!MongoConnection.#instance) {
+      const client = new MongoClient(uri, options);
+      MongoConnection.#instance = new MongoConnection(client.connect());
+    }
+
+    return MongoConnection.#instance;
+  }
 }
+
+const dataBaseConnection = MongoConnection.instance;
+const clientPromise = dataBaseConnection._mongoClientPromise;
 
 export default clientPromise;

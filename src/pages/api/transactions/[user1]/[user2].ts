@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../../lib/mongodb";
+import { TransactionProps } from "@/types/api/transactionProps";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +13,6 @@ export default async function handler(
       const client = await clientPromise;
       const db = client.db("TeleBank");
 
-      // Buscar todas as transações entre os dois usuários (independente da ordem)
       const transactions = await db
         .collection("transactions")
         .find({
@@ -25,15 +25,23 @@ export default async function handler(
 
       // Calcular o saldo do ponto de vista de user1
       let balance = 0;
+      const log: TransactionProps[] = [];
       transactions.forEach((transaction) => {
         if (transaction.from === user1) {
           balance -= transaction.value; // user1 enviou dinheiro
         } else {
           balance += transaction.value; // user1 recebeu dinheiro
         }
+        log.push({
+          from: transaction.from,
+          to: transaction.to,
+          value: transaction.value,
+          message: transaction.message,
+          date: transaction.date,
+        });
       });
 
-      res.status(200).json({ balance });
+      res.status(200).json({ balance: balance, log: log });
     } catch (error) {
       res.status(500).json({ message: "Erro ao calcular saldo", error });
     }
