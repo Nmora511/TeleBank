@@ -9,7 +9,6 @@ export default async function handler(
   if (req.method === "POST") {
     try {
       const decodedToken = authenticateToken(req, res);
-
       if (!decodedToken) return;
 
       const { user1, user2 } = req.body;

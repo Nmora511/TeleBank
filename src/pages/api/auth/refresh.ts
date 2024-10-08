@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 
-const refreshSecret = process.env.REFRESH_SECRET || "fallbackRefreshSecret";
+const refreshSecret =
+  process.env.REFRESH_TOKEN_SECRET || "fallbackRefreshSecret";
 const secret = process.env.JWT_SECRET || "fallbackSecret";
 
 export default async function handler(
@@ -29,7 +30,9 @@ export default async function handler(
 
       res.status(200).json({ accessToken: newAccessToken });
     } catch (error) {
-      res.status(403).json({ message: "Token de atualização inválido" });
+      res
+        .status(403)
+        .json({ message: "Token de atualização inválido", error: error });
     }
   } else {
     res.status(405).json({ message: "Método não permitido" });

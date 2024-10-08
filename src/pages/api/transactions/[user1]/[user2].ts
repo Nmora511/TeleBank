@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../../lib/mongodb";
 import { TransactionProps } from "@/types/api/transactionProps";
+import { authenticateToken } from "../../auth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,6 +11,9 @@ export default async function handler(
 
   if (req.method === "GET") {
     try {
+      const decodedToken = authenticateToken(req, res);
+      if (!decodedToken) return;
+
       const client = await clientPromise;
       const db = client.db("TeleBank");
 
@@ -26,18 +30,24 @@ export default async function handler(
       // Calcular o saldo do ponto de vista de user1
       let balance = 0;
       const log: TransactionProps[] = [];
+
       transactions.forEach((transaction) => {
-        if (transaction.from === user1) {
-          balance -= transaction.value; // user1 enviou dinheiro
-        } else {
-          balance += transaction.value; // user1 recebeu dinheiro
+        if (transaction.isValid) {
+          if (transaction.from === user1) {
+            balance += transaction.value; // user1 enviou dinheiro
+          } else {
+            balance -= transaction.value; // user1 recebeu dinheiro
+          }
         }
+
         log.push({
+          id: transaction.id,
           from: transaction.from,
           to: transaction.to,
           value: transaction.value,
           message: transaction.message,
           date: transaction.date,
+          isValid: transaction.isValid,
         });
       });
 

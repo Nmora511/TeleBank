@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
+import { authenticateToken } from "../auth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,6 +8,9 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
+      const decodedToken = authenticateToken(req, res);
+      if (!decodedToken) return;
+
       const { username } = req.query;
       const client = await clientPromise;
       const db = client.db("TeleBank");

@@ -42,9 +42,10 @@ export default async function handler(
         },
         secret,
         {
-          expiresIn: "5h",
+          expiresIn: "4h",
         },
       );
+      console.log("teste");
 
       const refreshToken = jwt.sign(
         { userId: user._id, username: user.username },
