@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/assets/logo.png",
   },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -32,6 +33,52 @@ export default function RootLayout({
       className={`${roboto.variable} ${poppins.variable} overflow-hidden`}
       lang="pt"
     >
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="TeleBank" />
+
+        <link rel="apple-touch-icon" href="/assets/192x192.png" />
+
+        {/* <link
+          href="/splash_screens/iphone5_splash.png"
+          media="(device-width: 320px)"
+          rel="apple-touch-startup-image"
+        />
+        <link
+          href="/splash_screens/iphone6_splash.png"
+          media="(device-width: 375px)"
+          rel="apple-touch-startup-image"
+        />
+        <link
+          href="/splash_screens/iphoneplus_splash.png"
+          media="(device-width: 414px)"
+          rel="apple-touch-startup-image"
+        />
+        <link
+          href="/splash_screens/iphonex_splash.png"
+          media="(device-width: 375px) and (device-height: 812px)"
+          rel="apple-touch-startup-image"
+        />
+        <link
+          href="/splash_screens/iphonexr_splash.png"
+          media="(device-width: 414px) and (device-height: 896px)"
+          rel="apple-touch-startup-image"
+        />
+        <link
+          href="/splash_screens/iphonexsmax_splash.png"
+          media="(device-width: 414px) and (device-height: 896px)"
+          rel="apple-touch-startup-image"
+        />
+        <link
+          href="/splash_screens/ipad_splash.png"
+          media="(device-width: 768px) and (device-height: 1024px)"
+          rel="apple-touch-startup-image"
+        /> */}
+      </head>
       <body className="h-full w-full font-roboto overflow-hidden">
         {children}
       </body>
