@@ -3,7 +3,7 @@ import InputPassword from "@/components/UtilComponents/InputPassword";
 
 export default function login() {
   return (
-    <div className="h-[100vh] w-full flex justify-center max-sm:mt-40 sm:items-center text-center">
+    <div className="h-[100vh] w-full flex justify-center max-sm:pt-28 sm:items-center text-center">
       <div className="flex flex-col gap-6">
         <div className="flex">
           <h1 className="text-[var(--primary-yellow)] md:text-[10rem] text-[4rem] font-bold font-poppins">
