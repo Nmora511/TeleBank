@@ -3,6 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 interface AuthTokenPayload extends JwtPayload {
   username: string;
+  name: string;
 }
 
 const secret = process.env.JWT_SECRET || "fallbackSecret";
