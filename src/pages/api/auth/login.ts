@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../lib/mongodb";
 import jwt from "jsonwebtoken";
+import { sha256 } from "js-sha256";
 
 const secret = process.env.JWT_SECRET || "fallbackSecret";
 const refreshSecret =
@@ -23,14 +24,16 @@ export default async function handler(
       const client = await clientPromise;
       const db = client.db("TeleBank");
 
-      // Procurar o usuário no banco de dados
-      const user = await db.collection("users").findOne({ username });
+      const user = await db.collection("users").findOne({ username: username });
 
       if (!user) {
         return res.status(400).json({ message: "Usuário não encontrado" });
       }
 
-      const passwordMatch = password === user.password;
+      const salt = process.env.NEXT_PUBLIC_SALT;
+      const hashedPassword = sha256(password + salt);
+      console.log(hashedPassword + " " + user.password);
+      const passwordMatch = hashedPassword === user.password;
 
       if (!passwordMatch) {
         return res.status(400).json({ message: "Senha incorreta" });
@@ -39,18 +42,18 @@ export default async function handler(
       const token = jwt.sign(
         {
           username: user.username,
+          name: user.name,
         },
         secret,
         {
           expiresIn: "4h",
         },
       );
-      console.log("teste");
 
       const refreshToken = jwt.sign(
-        { userId: user._id, username: user.username },
+        { username: user.username, name: user.name },
         refreshSecret,
-        { expiresIn: "30d" }, // Refresh token expira em 7 dias
+        { expiresIn: "30d" },
       );
 
       res.setHeader(

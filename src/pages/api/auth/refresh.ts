@@ -19,11 +19,10 @@ export default async function handler(
     }
 
     try {
-      // Verifica se o refresh token é válido
       const decoded = jwt.verify(refreshToken, refreshSecret) as jwt.JwtPayload;
 
       const newAccessToken = jwt.sign(
-        { userId: decoded.userId, username: decoded.username },
+        { username: decoded.username, name: decoded.name },
         secret,
         { expiresIn: "5h" },
       );
