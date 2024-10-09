@@ -10,6 +10,7 @@ const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    console.log(process.env.NEXT_PUBLIC_API_ROUTE);
     const token = localStorage.getItem("auth-token");
 
     if (!config.headers) {
