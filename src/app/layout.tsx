@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto, Poppins } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -80,6 +82,7 @@ export default function RootLayout({
         /> */}
       </head>
       <body className="h-full w-full font-roboto overflow-hidden">
+        <ToastContainer theme="dark" />
         {children}
       </body>
     </html>
