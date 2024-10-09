@@ -1,7 +1,7 @@
 import axios, { AxiosHeaders, AxiosInstance, AxiosResponse } from "axios";
 
 const api: AxiosInstance = axios.create({
-  baseURL: process.env.API_ROUTE,
+  baseURL: process.env.NEXT_PUBLIC_API_ROUTE,
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
@@ -10,7 +10,7 @@ const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("auth-token");
 
     if (!config.headers) {
       config.headers = new AxiosHeaders();
