@@ -51,7 +51,7 @@ export default async function handler(
         });
       });
 
-      res.status(200).json({ balance: balance, log: log });
+      res.status(200).json({ balance: balance / 100, log: log });
     } catch (error) {
       res.status(500).json({ message: "Erro ao calcular saldo", error });
     }
