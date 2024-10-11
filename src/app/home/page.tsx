@@ -17,6 +17,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [friendsList, setFriendsList] = useState<friends[]>([]);
 
+  console.log(username + name);
   useEffect(() => {
     api
       .get("/me")
