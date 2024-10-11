@@ -16,6 +16,7 @@ export default function Refresh() {
         if (response.status === 200 && response.data.accessToken) {
           localStorage.setItem("auth-token", response.data.accessToken);
           router.push("/home");
+          return;
         }
       })
       .catch((error) => {
