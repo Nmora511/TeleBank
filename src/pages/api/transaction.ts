@@ -33,12 +33,18 @@ export default async function handler(
           .json({ message: `Usuário ${to} não encontrado.` });
       }
 
-      const friendshipExists = await db.collection("friends").findOne({
-        $or: [
-          { user1: from, user2: to },
-          { user1: to, user2: from },
-        ],
+      // Verifica se as duas amizades recíprocas existem
+      const friendshipOne = await db.collection("friends").findOne({
+        user1: from,
+        user2: to,
       });
+
+      const friendshipTwo = await db.collection("friends").findOne({
+        user1: to,
+        user2: from,
+      });
+
+      const friendshipExists = friendshipOne && friendshipTwo;
 
       if (!friendshipExists) {
         return res.status(400).json({ message: "Os usuários não são amigos." });
