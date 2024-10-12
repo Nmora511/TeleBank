@@ -106,14 +106,24 @@ export default function Login() {
 
             <span className="border border-[var(--foreground)] bg-[var(--foreground)] w-[80%]" />
 
-            <a
-              onClick={() => {
-                router.push("/sign-up");
-              }}
-              className="cursor-pointer opacity-80"
-            >
-              Não possui uma conta, fazer cadastro
-            </a>
+            <div className="flex">
+              <a
+                onClick={() => {
+                  router.push("/sign-up");
+                }}
+                className="cursor-pointer opacity-80"
+              >
+                Não possui uma conta,&nbsp;
+              </a>
+              <a
+                onClick={() => {
+                  router.push("/sign-up");
+                }}
+                className="cursor-pointer opacity-80 text-[var(--primary-yellow)] underline"
+              >
+                Cadastrar-se
+              </a>
+            </div>
           </div>
         </div>
       </div>

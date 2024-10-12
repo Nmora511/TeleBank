@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import Card from "@/components/homeComponents/Card";
 import { friends, friendsProps } from "@/types/api/friendsProps";
 import Loading from "@/components/UtilComponents/Loading";
+import LayoutNavBar from "../layoutNavBar";
 
 export default function Home() {
   const router = useRouter();
@@ -75,36 +76,27 @@ export default function Home() {
       <Loading />
     </div>
   ) : (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center overflow-scroll"
-    >
-      <div className="w-full flex justify-center">
-        <h1 className="text-[var(--primary-yellow)] md:text-[10rem] text-[4rem] font-bold font-poppins">
-          TELE
-        </h1>
-        <h1 className="text-[var(--foreground)] md:text-[10rem] text-[4rem] font-bold font-poppins">
-          BANK
-        </h1>
-      </div>
-
-      <motion.div className="w-full h-full flex flex-col items-center text-center">
-        {" "}
-        {friendsList.map((friend) => {
-          return <Card key={friend.username} friend={friend} />;
-        })}
-      </motion.div>
-
-      <button
-        onClick={() => {
-          localStorage.removeItem("auth-token");
-          router.push("/");
-        }}
-        className="bg-[var(--primary-yellow)] mb-4 hover:bg-[var(--secondary-yellow)] active:bg-[var(--tertiary-yellow)] font-bold p-4 rounded-2xl"
+    <LayoutNavBar>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center overflow-scroll"
       >
-        Limpar LocalStorage
-      </button>
-    </motion.div>
+        <div className="w-full flex justify-center">
+          <h1 className="text-[var(--primary-yellow)] md:text-[10rem] text-[4rem] font-bold font-poppins">
+            TELE
+          </h1>
+          <h1 className="text-[var(--foreground)] md:text-[10rem] text-[4rem] font-bold font-poppins">
+            BANK
+          </h1>
+        </div>
+
+        <motion.div className="w-full h-fit flex flex-col items-center text-center pb-32">
+          {friendsList.map((friend) => {
+            return <Card key={friend.username} friend={friend} />;
+          })}
+        </motion.div>
+      </motion.div>
+    </LayoutNavBar>
   );
 }
