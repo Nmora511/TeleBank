@@ -3,7 +3,6 @@ import "./globals.css";
 import { Roboto, Poppins } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ScrollableWrapper from "@/components/ScrollableWrapper";
 
 const roboto = Roboto({
   weight: ["400", "700"],
