@@ -43,6 +43,10 @@ export default function RootLayout({
           content="black-translucent"
         />
         <meta name="apple-mobile-web-app-title" content="TeleBank" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
 
         <link rel="apple-touch-icon" href="/assets/192x192.png" />
 
