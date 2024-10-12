@@ -80,7 +80,7 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center scrollable overflow-scroll"
+        className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center"
       >
         <div className="w-full flex justify-center">
           <h1 className="text-[var(--primary-yellow)] md:text-[10rem] text-[4rem] font-bold font-poppins">
@@ -91,7 +91,7 @@ export default function Home() {
           </h1>
         </div>
 
-        <motion.div className="w-full h-fit flex flex-col items-center text-center pb-32">
+        <motion.div className="scrollable overflow-scroll w-full h-fit flex flex-col items-center text-center pb-32">
           {friendsList.map((friend) => {
             return <Card key={friend.username} friend={friend} />;
           })}

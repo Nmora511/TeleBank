@@ -79,7 +79,7 @@ export default function Notifications() {
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-screen h-screen overflow-scroll"
+        className="w-screen h-screen"
       >
         <div className="sticky top-0 w-full h-[10%] flex flex-col bg-[var(--background)] text-center items-center z-10">
           <div className="h-full w-full flex items-center justify-around">
