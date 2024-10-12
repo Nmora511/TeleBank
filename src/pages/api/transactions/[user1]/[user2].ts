@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../../../lib/mongodb";
 import { TransactionProps } from "@/types/api/transactionProps";
 import { authenticateToken } from "../../auth";
+import moment from "moment";
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,11 +28,17 @@ export default async function handler(
         })
         .toArray();
 
+      const orderedTransactions = transactions.sort(
+        (a, b) =>
+          moment(b.date, "DD-MM-YYYY/HH:mm").unix() -
+          moment(a.date, "DD-MM-YYYY/HH:mm").unix(),
+      );
+
       // Calcular o saldo do ponto de vista de user1
       let balance = 0;
       const log: TransactionProps[] = [];
 
-      transactions.forEach((transaction) => {
+      orderedTransactions.forEach((transaction) => {
         if (transaction.isValid) {
           if (transaction.from === user1) {
             balance += transaction.value; // user1 enviou dinheiro
