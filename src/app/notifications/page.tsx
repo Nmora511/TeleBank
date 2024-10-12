@@ -79,7 +79,7 @@ export default function Notifications() {
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-screen h-screen"
+        className="w-screen h-screen overflow-scroll"
       >
         <div className="sticky top-0 w-full h-[10%] flex flex-col bg-[var(--background)] text-center items-center z-10">
           <div className="h-full w-full flex items-center justify-around">
@@ -107,7 +107,7 @@ export default function Notifications() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col justify-center touch-pan-y scrollable overflow-scroll items-center gap-0 pb-28"
+            className="flex flex-col justify-center items-center gap-0 pb-28"
           >
             <Input
               onChange={(e) => setUserInvite(e.target.value)}
@@ -122,7 +122,7 @@ export default function Notifications() {
             >
               Enviar Convite
             </LoadingButton>
-            {invites.length != 0 ? (
+            {/* {invites.length != 0 ? (
               invites.map((invite) => {
                 return <InviteCard key={invite} invitationUser={invite} />;
               })
@@ -130,7 +130,12 @@ export default function Notifications() {
               <h1 className="mt-12 opacity-50 text-sm">
                 Não existem solicitações de amizade para você
               </h1>
-            )}
+            )} */}
+            <InviteCard invitationUser={"invite"} />
+            <InviteCard invitationUser={"invite"} />
+            <InviteCard invitationUser={"invite"} />
+            <InviteCard invitationUser={"invite"} />
+            <InviteCard invitationUser={"invite"} />
           </motion.div>
         ) : (
           <div></div>
