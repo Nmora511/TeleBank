@@ -122,7 +122,7 @@ export default function Notifications() {
             >
               Enviar Convite
             </LoadingButton>
-            {/* {invites.length != 0 ? (
+            {invites.length != 0 ? (
               invites.map((invite) => {
                 return <InviteCard key={invite} invitationUser={invite} />;
               })
@@ -130,12 +130,7 @@ export default function Notifications() {
               <h1 className="mt-12 opacity-50 text-sm">
                 Não existem solicitações de amizade para você
               </h1>
-            )} */}
-            <InviteCard invitationUser={"invite"} />
-            <InviteCard invitationUser={"invite"} />
-            <InviteCard invitationUser={"invite"} />
-            <InviteCard invitationUser={"invite"} />
-            <InviteCard invitationUser={"invite"} />
+            )}
           </motion.div>
         ) : (
           <div></div>
