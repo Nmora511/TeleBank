@@ -3,23 +3,71 @@ import clientPromise from "../../lib/mongodb";
 import { authenticateToken } from "./auth";
 import { friends } from "@/types/api/friendsProps";
 
-import { performance } from "perf_hooks";
-
-async function post(req: NextApiRequest, res: NextApiResponse) {
+async function deleteFriends(req: NextApiRequest, res: NextApiResponse) {
   try {
     const decodedToken = authenticateToken(req, res);
     if (!decodedToken) return;
 
-    const { user1, user2 } = req.body;
+    const { user2 } = req.body;
     const client = await clientPromise;
     const db = client.db("TeleBank");
 
-    if (!(user1 === decodedToken.username)) {
-      return res.status(400).json({
-        message:
-          "usuário do token não corresponde ao usuário chamando requisição",
-      });
+    const user1 = decodedToken.username;
+
+    const user2Exists = await db
+      .collection("users")
+      .findOne({ username: user2 });
+
+    if (!user2Exists) {
+      return res
+        .status(400)
+        .json({ message: `Usuário ${user2} não encontrado.` });
     }
+
+    const friendshipOneTwo = await db
+      .collection("friends")
+      .findOneAndDelete({ user1: user1, user2: user2 });
+
+    const friendshipTwoOne = await db
+      .collection("friends")
+      .findOneAndDelete({ user1: user2, user2: user1 });
+
+    console.log(friendshipOneTwo);
+    console.log(friendshipTwoOne);
+
+    console.log("!1 -> 2" + !friendshipOneTwo);
+    console.log("!2 -> 1" + !friendshipTwoOne);
+
+    if (!friendshipOneTwo && !friendshipTwoOne) {
+      res.status(404).json({ message: "Amizade ou convites não encontrados" });
+    }
+
+    if (friendshipOneTwo && friendshipTwoOne) {
+      res.status(200).json({ message: "Amizade desfeita com sucesso" });
+      return;
+    }
+
+    if (friendshipOneTwo) {
+      res.status(200).json({ message: "Convite retirado com sucesso" });
+      return;
+    }
+
+    res.status(200).json({ message: "Convite recusado com sucesso" });
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao adicionar amigo", error });
+  }
+}
+
+async function postFriends(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const decodedToken = authenticateToken(req, res);
+    if (!decodedToken) return;
+
+    const { user2 } = req.body;
+    const client = await clientPromise;
+    const db = client.db("TeleBank");
+
+    const user1 = decodedToken.username;
 
     const user2Exists = await db
       .collection("users")
@@ -56,9 +104,8 @@ async function post(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-async function get(req: NextApiRequest, res: NextApiResponse) {
+async function getFriends(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const startTime = performance.now();
     const decodedToken = authenticateToken(req, res);
     if (!decodedToken) return;
 
@@ -67,15 +114,12 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
     const client = await clientPromise;
     const db = client.db("TeleBank");
 
-    const stepOne = performance.now();
     const possibleFriends = await db
       .collection("friends")
       .find({
         user1: username,
       })
       .toArray();
-
-    const stepTwo = performance.now();
 
     const reciprocalFriendship = await db
       .collection("friends")
@@ -89,7 +133,6 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
       (friend) => friend.user1,
     );
 
-    const stepThree = performance.now();
     const friendsList: friends[] = [];
 
     const friend_data = await db
@@ -131,11 +174,6 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
       });
     }
 
-    const endTime = performance.now();
-    console.log(`Passo 1: ${stepOne - startTime}`);
-    console.log(`Passo 2: ${stepTwo - stepOne}`);
-    console.log(`Passo 3: ${stepThree - stepTwo}`);
-    console.log(`Passo 4: ${endTime - stepThree}`);
     res.status(200).json({ friends: friendsList });
   } catch (error) {
     res.status(500).json({ message: "Erro ao puxar amigos", error });
@@ -147,9 +185,11 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === "POST") {
-    post(req, res);
+    postFriends(req, res);
   } else if (req.method === "GET") {
-    get(req, res);
+    getFriends(req, res);
+  } else if (req.method === "DELETE") {
+    deleteFriends(req, res);
   } else {
     res.status(405).json({ message: "Método não permitido" });
   }
