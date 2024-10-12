@@ -80,7 +80,7 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center overflow-scroll"
+        className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center scrollable overflow-scroll"
       >
         <div className="w-full flex justify-center">
           <h1 className="text-[var(--primary-yellow)] md:text-[10rem] text-[4rem] font-bold font-poppins">
