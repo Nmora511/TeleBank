@@ -107,7 +107,7 @@ export default function Notifications() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col justify-center scrollable overflow-scroll items-center gap-0 pb-28"
+            className="flex flex-col justify-center touch-pan-y scrollable overflow-scroll items-center gap-0 pb-28"
           >
             <Input
               onChange={(e) => setUserInvite(e.target.value)}

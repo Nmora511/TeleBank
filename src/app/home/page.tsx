@@ -91,7 +91,7 @@ export default function Home() {
           </h1>
         </div>
 
-        <motion.div className="scrollable overflow-scroll w-full h-fit flex flex-col items-center text-center pb-32">
+        <motion.div className="scrollable touch-pan-y overflow-scroll w-full h-fit flex flex-col items-center text-center pb-32">
           {friendsList.map((friend) => {
             return <Card key={friend.username} friend={friend} />;
           })}

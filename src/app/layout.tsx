@@ -86,8 +86,7 @@ export default function RootLayout({
           rel="apple-touch-startup-image"
         /> */}
       </head>
-      <body className="h-full w-full font-roboto overflow-hidden">
-        <ScrollableWrapper />
+      <body className="h-full w-full font-roboto overflow-hidden touch-none">
         <ToastContainer theme="dark" />
         {children}
       </body>
