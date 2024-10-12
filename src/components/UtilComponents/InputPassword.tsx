@@ -20,7 +20,7 @@ export default function InputPassword({ ...rest }: InputProps) {
             : "text-[var(--primary-yellow)]"
         }`}
       >
-        {passwordHidden ? (
+        {!passwordHidden ? (
           <svg
             className="shrink-0 size-3.5"
             width="24"
