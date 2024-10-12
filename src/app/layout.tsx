@@ -87,10 +87,9 @@ export default function RootLayout({
         /> */}
       </head>
       <body className="h-full w-full font-roboto overflow-hidden">
-        <ScrollableWrapper>
-          <ToastContainer theme="dark" />
-          {children}
-        </ScrollableWrapper>
+        <ScrollableWrapper />
+        <ToastContainer theme="dark" />
+        {children}
       </body>
     </html>
   );

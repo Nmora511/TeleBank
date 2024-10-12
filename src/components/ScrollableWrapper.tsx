@@ -1,12 +1,8 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 
-type ScrollableWrapperProps = {
-  children: ReactNode;
-};
-
-const ScrollableWrapper = ({ children }: ScrollableWrapperProps) => {
+const ScrollableWrapper = () => {
   useEffect(() => {
     const scrollable = document.querySelector(".scrollable");
 
@@ -24,8 +20,7 @@ const ScrollableWrapper = ({ children }: ScrollableWrapperProps) => {
       document.body.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
-
-  return <div className="scrollable">{children}</div>;
+  return <></>;
 };
 
 export default ScrollableWrapper;
