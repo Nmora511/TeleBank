@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
+import clientPromise from "@/lib/mongodb";
 
 const refreshSecret =
   process.env.REFRESH_TOKEN_SECRET || "fallbackRefreshSecret";
@@ -20,6 +21,17 @@ export default async function handler(
 
     try {
       const decoded = jwt.verify(refreshToken, refreshSecret) as jwt.JwtPayload;
+
+      const client = await clientPromise;
+      const db = client.db("TeleBank");
+
+      const user = await db
+        .collection("users")
+        .findOne({ username: decoded.username });
+
+      if (!user) {
+        return res.status(400).json({ message: "Usuário não encontrado" });
+      }
 
       const newAccessToken = jwt.sign(
         { username: decoded.username, name: decoded.name },
