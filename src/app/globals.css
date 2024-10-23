@@ -6,6 +6,7 @@
 
 :root {
   --background: #f6f7f8;
+  --background-opacity: rgba(246, 247, 248, 0.8);
   --foreground: #171717;
   --primary-red: #ff0000;
   --primary-green: #05ff00;
@@ -20,6 +21,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #171717;
+    --background-opacity: rgba(23, 23, 23, 0.8);
     --foreground: #ededed;
     --secondary-foreground: #383838;
   }
