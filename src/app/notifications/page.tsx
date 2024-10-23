@@ -70,73 +70,77 @@ export default function Notifications() {
       });
   };
 
-  return isLoading ? (
-    <div className="h-[88vh] w-full flex items-center justify-center">
-      <Loading />
-    </div>
-  ) : (
+  return (
     <LayoutNavBar>
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-screen h-screen overflow-scroll"
-      >
-        <div className="sticky top-0 w-full h-[10%] flex flex-col bg-[var(--background)] text-center items-center z-10">
-          <div className="h-full w-full flex items-center justify-around">
-            <h2
-              onClick={() => {
-                setOption("friendship");
-              }}
-              className={`text-2xl flex-1 cursor-pointer h-full flex items-center justify-center ${option === "friendship" ? "bg-[var(--secondary-foreground)]" : ""}`}
-            >
-              Amizades
-            </h2>
-            <span className="w-[0.04rem] h-[80%] bg-[var(--foreground)]" />
-            <h2
-              onClick={() => {
-                setOption("transaction");
-              }}
-              className={`text-2xl flex-1 cursor-pointer h-full flex items-center justify-center ${option === "transaction" ? "bg-[var(--secondary-foreground)]" : ""}`}
-            >
-              Transações
-            </h2>
-          </div>
-          <span className="h-[0.05rem] w-[95%] bg-[var(--foreground)] " />
+      {isLoading ? (
+        <div className="h-[88vh] w-full flex items-center justify-center">
+          <Loading />
         </div>
-        {option === "friendship" ? (
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col justify-center items-center gap-0 pb-28"
-          >
-            <Input
-              onChange={(e) => setUserInvite(e.target.value)}
-              value={userInvite}
-              placeholder="Nome de Usuário"
-              css="mt-6"
-            />
-            <LoadingButton
-              isLoadingButton={isLoadingButton}
-              onClick={sendInvite}
-              className="bg-[var(--primary-yellow)] mt-3 hover:bg-[var(--secondary-yellow)] active:bg-[var(--tertiary-yellow)] font-bold p-4 rounded-2xl"
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-screen h-screen overflow-scroll"
+        >
+          <div className="sticky top-0 w-full h-[10%] flex flex-col bg-[var(--background)] text-center items-center z-10">
+            <div className="h-full w-full flex items-center justify-around">
+              <h2
+                onClick={() => {
+                  setOption("friendship");
+                }}
+                className={`text-2xl flex-1 cursor-pointer h-full flex items-center justify-center ${option === "friendship" ? "bg-[var(--secondary-foreground)]" : ""}`}
+              >
+                Amizades
+              </h2>
+              <span className="w-[0.04rem] h-[80%] bg-[var(--foreground)]" />
+              <h2
+                onClick={() => {
+                  setOption("transaction");
+                }}
+                className={`text-2xl flex-1 cursor-pointer h-full flex items-center justify-center ${option === "transaction" ? "bg-[var(--secondary-foreground)]" : ""}`}
+              >
+                Transações
+              </h2>
+            </div>
+            <span className="h-[0.05rem] w-[95%] bg-[var(--foreground)] " />
+          </div>
+          {option === "friendship" ? (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col justify-center items-center gap-0 pb-28"
             >
-              Enviar Convite
-            </LoadingButton>
-            {invites.length != 0 ? (
-              invites.map((invite) => {
-                return <InviteCard key={invite} invitationUser={invite} />;
-              })
-            ) : (
-              <h1 className="mt-12 opacity-50 text-sm">
-                Não existem solicitações de amizade para você
-              </h1>
-            )}
-          </motion.div>
-        ) : (
-          <div></div>
-        )}
-        {option === "transaction" ? <TransactionCard /> : <div></div>}
-      </motion.div>
+              <Input
+                onChange={(e) => setUserInvite(e.target.value)}
+                value={userInvite}
+                placeholder="Nome de Usuário"
+                css="mt-6"
+              />
+              <LoadingButton
+                isLoadingButton={isLoadingButton}
+                onClick={sendInvite}
+                className="bg-[var(--primary-yellow)] mt-3 hover:bg-[var(--secondary-yellow)] active:bg-[var(--tertiary-yellow)] font-bold p-4 rounded-2xl"
+              >
+                Enviar Convite
+              </LoadingButton>
+              {invites.length != 0 ? (
+                invites.map((invite) => {
+                  return <InviteCard key={invite} invitationUser={invite} />;
+                })
+              ) : (
+                <h1 className="mt-12 opacity-50 text-sm">
+                  Não existem solicitações de amizade para você
+                </h1>
+              )}
+            </motion.div>
+          ) : (
+            <div className="h-full w-full flex justify-center items-start">
+              <h1 className="mt-48">Em Breve...</h1>
+            </div>
+          )}
+          {option === "transaction" ? <TransactionCard /> : <div></div>}
+        </motion.div>
+      )}
     </LayoutNavBar>
   );
 }
