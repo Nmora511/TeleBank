@@ -8,66 +8,27 @@ import moment from "moment";
 import { Trash, ArrowRight, ArrowClockwise } from "phosphor-react";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import DeleteModal from "../UtilComponents/Modals/DeleteModal";
+import ReactiveModal from "../UtilComponents/Modals/ReactiveModal";
 
 type friendHistoryProps = {
   transaction: Transaction;
 };
 
 export default function FriendHistory({ transaction }: friendHistoryProps) {
-  const { setModalIsOpen, setModalContent } = useModalContext();
+  const { setModalIsOpen, setModalContent, setIsAuxLoading } =
+    useModalContext();
   const isValidProperties = transaction.isValid
     ? ""
     : "line-through text-[var(--primary-red)] opacity-70";
 
-  useEffect(() => {
-    setModalContent(
-      <div>
-        <h1 className="text-xl m-2 mb-6 font-bold">
-          Tem certeza que deseja apagar a transação selecionada?{" "}
-        </h1>
-        <div className="flex justify-evenly">
-          <button className="font-bold text-xl m-2 mb-6 text-[var(--primary-red)]">
-            Não
-          </button>
-          <button className="font-bold text-xl m-2 mb-6 text-[var(--primary-green)]">
-            Sim
-          </button>
-        </div>
-      </div>,
-    );
-  }, []);
-
   const deleteModal = () => {
-    setModalContent(
-      <div>
-        <h1 className="text-xl m-2 mb-6 font-bold">
-          Tem certeza que deseja apagar a transação selecionada?{" "}
-        </h1>
-        <div className="flex justify-evenly">
-          <button
-            onClick={() => {
-              setModalIsOpen(false);
-            }}
-            className="font-bold text-xl m-2 mb-6 text-[var(--primary-red)]"
-          >
-            Não
-          </button>
-          <button
-            onClick={() => {
-              deleteTransaction();
-            }}
-            className="font-bold text-xl m-2 mb-6 text-[var(--primary-green)]"
-          >
-            Sim
-          </button>
-        </div>
-      </div>,
-    );
-
+    setModalContent(<DeleteModal deleteTransaction={deleteTransaction} />);
     setModalIsOpen(true);
   };
 
   const deleteTransaction = () => {
+    setIsAuxLoading(true);
     api
       .post("transactions/delete/", { id: transaction.id })
       .then((response: AxiosResponse<{ message: string }>) => {
@@ -90,35 +51,14 @@ export default function FriendHistory({ transaction }: friendHistoryProps) {
 
   const reactiveModal = () => {
     setModalContent(
-      <div>
-        <h1 className="text-xl m-2 mb-6 font-bold">
-          Tem certeza que deseja reativar a transação selecionada?{" "}
-        </h1>
-        <div className="flex justify-evenly">
-          <button
-            onClick={() => {
-              setModalIsOpen(false);
-            }}
-            className="font-bold text-xl m-2 mb-6 text-[var(--primary-red)]"
-          >
-            Não
-          </button>
-          <button
-            onClick={() => {
-              reactiveTransaction();
-            }}
-            className="font-bold text-xl m-2 mb-6 text-[var(--primary-green)]"
-          >
-            Sim
-          </button>
-        </div>
-      </div>,
+      <ReactiveModal reactiveTransaction={reactiveTransaction} />,
     );
 
     setModalIsOpen(true);
   };
 
   const reactiveTransaction = () => {
+    setIsAuxLoading(true);
     api
       .post("transactions/reactive/", { id: transaction.id })
       .then((response: AxiosResponse<{ message: string }>) => {
@@ -138,6 +78,10 @@ export default function FriendHistory({ transaction }: friendHistoryProps) {
         window.location.reload();
       });
   };
+
+  useEffect(() => {
+    setIsAuxLoading(false);
+  }, []);
 
   return (
     <div className="w-[80%] gap-2 flex flex-col justify-center">
