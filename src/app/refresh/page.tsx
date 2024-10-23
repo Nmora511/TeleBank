@@ -21,7 +21,11 @@ export default function Refresh() {
         }
       })
       .catch((error) => {
-        if (error.response && error.response.data) {
+        if (error.response.status === 403 || error.response.status === 400) {
+          localStorage.removeItem("auth-token");
+          router.push("/login");
+          return;
+        } else if (error.response && error.response.data) {
           toast.error(error.response.data.message || "Erro desconhecido");
         } else {
           toast.error("Erro de conexão ou algo inesperado");
