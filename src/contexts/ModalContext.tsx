@@ -12,17 +12,27 @@ type ModalContextType = {
   setModalIsOpen: (value: boolean) => void;
   modalContent: ReactElement;
   setModalContent: (value: ReactElement) => void;
+  isAuxLoading: boolean;
+  setIsAuxLoading: (value: boolean) => void;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export const ModalWrapper = ({ children }: { children: ReactNode }) => {
+  const [isAuxLoading, setIsAuxLoading] = useState<boolean>(false);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [modalContent, setModalContent] = useState<ReactElement>(<></>);
 
   return (
     <ModalContext.Provider
-      value={{ modalIsOpen, setModalIsOpen, modalContent, setModalContent }}
+      value={{
+        modalIsOpen,
+        setModalIsOpen,
+        modalContent,
+        setModalContent,
+        isAuxLoading,
+        setIsAuxLoading,
+      }}
     >
       {children}
     </ModalContext.Provider>
