@@ -1,5 +1,6 @@
 "use client";
 import api from "@/apiClient/apiCaller";
+import Loading from "@/components/UtilComponents/Loading";
 import { refreshProps } from "@/types/api/refreshProps";
 import { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
@@ -29,5 +30,9 @@ export default function Refresh() {
       });
   }, []);
 
-  return <div></div>;
+  return (
+    <div className="h-[88vh] w-full flex items-center justify-center">
+      <Loading />
+    </div>
+  );
 }
