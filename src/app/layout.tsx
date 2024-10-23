@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto, Poppins } from "next/font/google";
 import { ToastContainer } from "react-toastify";
+import { ModalWrapper } from "@/contexts/ModalContext";
+import Modal from "@/components/UtilComponents/Modal";
 import "react-toastify/dist/ReactToastify.css";
 
 const roboto = Roboto({
@@ -42,10 +44,6 @@ export default function RootLayout({
           content="black-translucent"
         />
         <meta name="apple-mobile-web-app-title" content="TeleBank" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-        />
 
         <link rel="apple-touch-icon" href="/assets/192x192.png" />
 
@@ -86,8 +84,11 @@ export default function RootLayout({
         /> */}
       </head>
       <body className="h-full w-full font-roboto overflow-hidden touch-none">
-        <ToastContainer theme="dark" />
-        {children}
+        <ModalWrapper>
+          <ToastContainer theme="dark" />
+          <Modal />
+          {children}
+        </ModalWrapper>
       </body>
     </html>
   );
