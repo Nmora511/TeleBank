@@ -3,6 +3,7 @@ import { moneyMask } from "@/utils/MoneyMask";
 import { useRouter } from "next/navigation";
 
 type CardProps = {
+  setIsLoading: (value: boolean) => void;
   friend: {
     name: string;
     username: string;
@@ -10,7 +11,7 @@ type CardProps = {
   };
 };
 
-export default function Card({ friend }: CardProps) {
+export default function Card({ friend, setIsLoading }: CardProps) {
   const router = useRouter();
 
   const balanceColorVerification =
@@ -24,6 +25,7 @@ export default function Card({ friend }: CardProps) {
   return (
     <div
       onClick={() => {
+        setIsLoading(true);
         router.push(`/friend/${friend.username}`);
       }}
       className="flex flex-col items-center justify-center cursor-pointer w-[80%] h-[26%] m-4 bg-[var(--secondary-foreground)] border-[var(--primary-yellow)] border-[0.2rem] rounded-lg"

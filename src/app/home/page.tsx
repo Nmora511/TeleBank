@@ -62,7 +62,13 @@ export default function Home() {
 
           <motion.div className="w-full h-fit flex flex-col items-center text-center pb-32">
             {friendsList.map((friend) => {
-              return <Card key={friend.username} friend={friend} />;
+              return (
+                <Card
+                  key={friend.username}
+                  setIsLoading={setIsLoading}
+                  friend={friend}
+                />
+              );
             })}
           </motion.div>
         </motion.div>
