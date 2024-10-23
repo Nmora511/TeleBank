@@ -1,21 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const loadingContainer = {
-  width: "4.5rem",
-  height: "1.4rem",
-  display: "flex",
-  justifyContent: "space-evenly",
-};
-
-const loadingCircle = {
-  display: "block",
-  width: "0.5rem",
-  height: "0.5rem",
-  backgroundColor: "var(--foreground)",
-  borderRadius: "0.25rem",
-};
-
 const loadingContainerVariants = {
   start: {
     transition: {
@@ -45,26 +30,33 @@ const loadingCircleTransition = {
   ease: "easeInOut",
 };
 
-export default function ThreeDotsWave() {
+export default function ThreeDotsWave({
+  circleCss,
+  containerCss,
+}: {
+  circleCss?: string;
+  containerCss?: string;
+}) {
+  const loadingCircle = `block w-[0.5rem] h-[0.5rem] bg-[var(--foreground)] rounded ${circleCss}`;
   return (
     <motion.div
-      style={loadingContainer}
+      className={`flex w-[4.5rem] h-[1.4rem] justify-evenly ${containerCss}`}
       variants={loadingContainerVariants}
       initial="start"
       animate="end"
     >
       <motion.span
-        style={loadingCircle}
+        className={loadingCircle}
         variants={loadingCircleVariants}
         transition={loadingCircleTransition}
       />
       <motion.span
-        style={loadingCircle}
+        className={loadingCircle}
         variants={loadingCircleVariants}
         transition={loadingCircleTransition}
       />
       <motion.span
-        style={loadingCircle}
+        className={loadingCircle}
         variants={loadingCircleVariants}
         transition={loadingCircleTransition}
       />
