@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../lib/mongodb";
-import { TransactionProps } from "@/types/api/transactionProps";
+import { Transaction } from "@/types/api/transactionProps";
 import { v4 as uuid } from "uuid";
 
 export default async function handler(
@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const { from, to, value, message, date }: TransactionProps = req.body;
+      const { from, to, value, message, date }: Transaction = req.body;
       const client = await clientPromise;
       const db = client.db("TeleBank");
 
@@ -54,7 +54,7 @@ export default async function handler(
         id: uuid(),
         from: from,
         to: to,
-        value: value * 100, //recebido do front em reais(float), passando para centavos(int)
+        value: value * 100,
         message: message,
         date: date,
         isValid: true,
