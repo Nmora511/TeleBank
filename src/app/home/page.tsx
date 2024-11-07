@@ -61,15 +61,21 @@ export default function Home() {
           </div>
 
           <motion.div className="w-full h-fit flex flex-col items-center text-center pb-32">
-            {friendsList.map((friend) => {
-              return (
-                <Card
-                  key={friend.username}
-                  setIsLoading={setIsLoading}
-                  friend={friend}
-                />
-              );
-            })}
+            {friendsList.length > 0 ? (
+              friendsList.map((friend) => {
+                return (
+                  <Card
+                    key={friend.username}
+                    setIsLoading={setIsLoading}
+                    friend={friend}
+                  />
+                );
+              })
+            ) : (
+              <h1 className="my-60 opacity-50 text-lg">
+                Nenhuma amizade encontrada
+              </h1>
+            )}
           </motion.div>
         </motion.div>
       )}
