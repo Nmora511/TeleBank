@@ -14,7 +14,8 @@ export function moneyMask(value: number | string): string {
 export function removeMoneyMask(value: string): number {
   let numericValue = value.replace(/[^\d,]/g, "");
 
-  numericValue = numericValue.replace(",", ".");
+  numericValue = numericValue.replace(".", "").replaceAll(",", "");
+  const numberValue = parseFloat(numericValue) / 100;
 
-  return parseFloat(numericValue);
+  return numberValue;
 }
