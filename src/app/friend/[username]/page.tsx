@@ -26,17 +26,14 @@ export default function Friend() {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  //temporary
-  console.log(myUsername);
-
   useEffect(() => {
     api
       .get(`/transactions/${username}`)
       .then((response: AxiosResponse<TransactionProps>) => {
         if (
           response.status === 200 &&
-          response.data.log &&
-          response.data.balance
+          response.data.log !== undefined &&
+          response.data.balance !== undefined
         ) {
           setLog(response.data.log);
           setBalance(response.data.balance);
