@@ -130,7 +130,10 @@ export default function TransactionModal({
             <select
               defaultValue=""
               value={from}
-              onChange={(e) => setFrom(e.target.value)}
+              onChange={(e) => {
+                setTo("");
+                setFrom(e.target.value);
+              }}
               className="text-center m-2 p-2 focus:bg-[var(--secondary-foreground)] outline-none border-[1px] rounded-lg border-[var(--foreground)] bg-[var(--background)]"
             >
               {fromOptionList}
@@ -142,7 +145,10 @@ export default function TransactionModal({
             <select
               defaultValue=""
               value={to}
-              onChange={(e) => setTo(e.target.value)}
+              onChange={(e) => {
+                setFrom("");
+                setTo(e.target.value);
+              }}
               className="text-center m-2 p-2 focus:bg-[var(--secondary-foreground)] outline-none border-[1px] rounded-lg border-[var(--foreground)] bg-[var(--background)]"
             >
               {toOptionList}
@@ -153,6 +159,7 @@ export default function TransactionModal({
         <div className="my-4 flex flex-col">
           <h1 className="font-bold">MENSAGEM:</h1>
           <Input
+            maxLength={30}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             css="mx-6"
@@ -173,6 +180,7 @@ export default function TransactionModal({
           <div className="my-4 text-center w-fit">
             <h1 className="font-bold">VALOR:</h1>
             <Input
+              maxLength={15}
               value={moneyMask(value)}
               onChange={(e) => setValue(removeMoneyMask(e.target.value))}
               css="text-center w-[6rem]"
