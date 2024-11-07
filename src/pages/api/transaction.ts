@@ -54,7 +54,7 @@ export default async function handler(
         id: uuid(),
         from: from,
         to: to,
-        value: value * 100,
+        value: Math.round(value * 100),
         message: message,
         date: date,
         isValid: true,
