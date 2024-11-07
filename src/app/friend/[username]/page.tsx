@@ -3,6 +3,8 @@ import api from "@/apiClient/apiCaller";
 import FriendHistory from "@/components/friendsComponents/FriendHistory";
 import BackArrow from "@/components/UtilComponents/BackArrow";
 import Loading from "@/components/UtilComponents/Loading";
+import TransactionModal from "@/components/UtilComponents/Modals/TransactionModal";
+import { useModalContext } from "@/contexts/ModalContext";
 import { meProps } from "@/types/api/meProps";
 import { Transaction, TransactionProps } from "@/types/api/transactionProps";
 import { moneyMask } from "@/utils/MoneyMask";
@@ -13,11 +15,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Friend() {
+  const { setModalIsOpen, setModalContent } = useModalContext();
   const params = useParams();
   const username = params?.username ? params?.username : "";
   const [log, setLog] = useState<Transaction[]>([]);
   const [balance, setBalance] = useState<number>(0);
-  const [myName, setMyName] = useState<string>("");
   const [myUsername, setMyUserame] = useState<string>("");
   const [friendName, setFriendName] = useState<string>("");
   const [friendUserName, setFriendUserName] = useState<string>("");
@@ -25,7 +27,7 @@ export default function Friend() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   //temporary
-  console.log(myName + myUsername);
+  console.log(myUsername);
 
   useEffect(() => {
     api
@@ -63,7 +65,6 @@ export default function Friend() {
           response.data.name
         ) {
           setMyUserame(response.data.username);
-          setMyName(response.data.name);
         }
       })
       .catch((error) => {
@@ -103,6 +104,16 @@ export default function Friend() {
       .finally(() => {
         setIsLoading(false);
       });
+  };
+
+  const newTransaction = () => {
+    setModalContent(
+      <TransactionModal
+        myUserName={myUsername}
+        friendUserName={friendUserName}
+      />,
+    );
+    setModalIsOpen(true);
   };
 
   const balanceColorVerification =
@@ -145,6 +156,7 @@ export default function Friend() {
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
+        onClick={newTransaction}
         className="my-8 text-2xl bg-[var(--primary-yellow)] hover:bg-[var(--secondary-yellow)] active:bg-[var(--tertiary-yellow)] font-bold p-4 rounded-3xl"
       >
         Nova
