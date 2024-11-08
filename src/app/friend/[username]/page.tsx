@@ -10,11 +10,12 @@ import { Transaction, TransactionProps } from "@/types/api/transactionProps";
 import { moneyMask } from "@/utils/MoneyMask";
 import { AxiosResponse } from "axios";
 import { motion } from "framer-motion";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Friend() {
+  const router = useRouter();
   const { setModalIsOpen, setModalContent } = useModalContext();
   const params = useParams();
   const username = params?.username ? params?.username : "";
@@ -40,6 +41,10 @@ export default function Friend() {
         }
       })
       .catch((error) => {
+        if (error.response.status === 401 || error.response.status === 403) {
+          router.push("/refresh");
+          return;
+        }
         if (error.response && error.response.data) {
           toast.error(error.response.data.message || "Erro desconhecido");
         } else {
