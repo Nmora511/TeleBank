@@ -36,6 +36,10 @@ export default function Notifications() {
         }
       })
       .catch((error) => {
+        if (error.response.status === 401 || error.response.status === 403) {
+          router.push("/refresh");
+          return;
+        }
         if (error.response && error.response.data) {
           toast.error(error.response.data.message || "Erro desconhecido");
         } else {
