@@ -11,8 +11,10 @@ import TransactionCard from "@/components/notificationsComponents/TransactionCar
 import Input from "@/components/UtilComponents/Input";
 import LoadingButton from "@/components/UtilComponents/LoadingButton/LoadingButton";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Notifications() {
+  const router = useRouter();
   const [option, setOption] = useState<string>("friendship");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [transactions, setTransactions] = useState<transaction[]>();
