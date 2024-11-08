@@ -19,7 +19,7 @@ export default function TransactionModal({
   friendUserName,
 }: TransactionModalProps) {
   const { setModalIsOpen } = useModalContext();
-  const [date, setDate] = useState<string>(moment().format("YYYY-MM-DDThh:mm"));
+  const [date, setDate] = useState<string>(moment().format("YYYY-MM-DDTHH:mm"));
   const [value, setValue] = useState<number>(0);
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
