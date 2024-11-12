@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import clientPromise from "../../lib/mongodb";
 import { Transaction } from "@/types/api/transactionProps";
 import { v4 as uuid } from "uuid";
+import moment from "moment";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,6 +13,19 @@ export default async function handler(
       const { from, to, value, message, date }: Transaction = req.body;
       const client = await clientPromise;
       const db = client.db("TeleBank");
+
+      if (value <= 0 || isNaN(value)) {
+        return res.status(400).json({ message: `Valor ${value} inválido.` });
+      }
+
+      if (message === "" || message === undefined) {
+        return res.status(400).json({ message: `Mensagem inválida.` });
+      }
+
+      const dateFormatted = moment(date);
+      if (!dateFormatted.isValid()) {
+        return res.status(400).json({ message: `Data inválida.` });
+      }
 
       const user1Exists = await db
         .collection("users")

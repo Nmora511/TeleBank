@@ -3,6 +3,7 @@ import { QuickTransactionProps } from "@/types/api/transactionProps";
 import { v4 as uuid } from "uuid";
 import clientPromise from "@/lib/mongodb";
 import { authenticateToken } from "../auth";
+import moment from "moment";
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,6 +18,19 @@ export default async function handler(
       const { friends, value, date, message }: QuickTransactionProps = req.body;
       const client = await clientPromise;
       const db = client.db("TeleBank");
+
+      if (value <= 0 || isNaN(value)) {
+        return res.status(400).json({ message: `Valor ${value} inválido.` });
+      }
+
+      if (message === "" || message === undefined) {
+        return res.status(400).json({ message: `Mensagem inválida.` });
+      }
+
+      const dateFormatted = moment(date);
+      if (!dateFormatted.isValid()) {
+        return res.status(400).json({ message: `Data inválida.` });
+      }
 
       const usersExist = await Promise.all(
         friends.map(async (friend) => {
