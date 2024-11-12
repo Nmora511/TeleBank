@@ -21,7 +21,7 @@ export default function Refresh() {
         }
       })
       .catch((error) => {
-        if (error.response.status === 403 || error.response.status === 400) {
+        if (error.response.status === 403 || error.response.status === 401) {
           localStorage.removeItem("auth-token");
           router.push("/login");
           return;
