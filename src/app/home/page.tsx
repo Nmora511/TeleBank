@@ -55,44 +55,48 @@ export default function Home() {
           <Loading />
         </div>
       ) : (
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center overflow-scroll"
-        >
-          <div className="w-full flex justify-center">
-            <h1 className="text-[var(--primary-yellow)] md:text-[10rem] text-[4rem] font-bold font-poppins">
-              TELE
-            </h1>
-            <h1 className="text-[var(--foreground)] md:text-[10rem] text-[4rem] font-bold font-poppins">
-              BANK
-            </h1>
-          </div>
-
-          <motion.div className="w-full h-fit flex flex-col items-center text-center pb-32">
-            {friendsList.length > 0 ? (
-              friendsList.map((friend) => {
-                return (
-                  <Card
-                    key={friend.username}
-                    setIsLoading={setIsLoading}
-                    friend={friend}
-                  />
-                );
-              })
-            ) : (
-              <h1 className="my-60 opacity-50 text-lg">
-                Nenhuma amizade encontrada
+        <>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="h-[100vh] w-full justify-center max-sm:pt-8 sm:items-center text-center overflow-scroll"
+          >
+            <div className="w-full flex justify-center">
+              <h1 className="text-[var(--primary-yellow)] md:text-[10rem] text-[4rem] font-bold font-poppins">
+                TELE
               </h1>
-            )}
+              <h1 className="text-[var(--foreground)] md:text-[10rem] text-[4rem] font-bold font-poppins">
+                BANK
+              </h1>
+            </div>
+
+            <motion.div className="w-full h-fit flex flex-col items-center text-center pb-32">
+              {friendsList.length > 0 ? (
+                friendsList.map((friend) => {
+                  return (
+                    <Card
+                      key={friend.username}
+                      setIsLoading={setIsLoading}
+                      friend={friend}
+                    />
+                  );
+                })
+              ) : (
+                <h1 className="my-60 opacity-50 text-lg">
+                  Nenhuma amizade encontrada
+                </h1>
+              )}
+            </motion.div>
           </motion.div>
-          <div
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.87 }}
             onClick={quickTransaction}
-            className="z-40 cursor-pointer m-2 bg-[var(--primary-yellow)] w-fit h-fit flex justify-center items-center rounded-full sticky bottom-[8rem] left-[80vw]"
+            className="z-9 cursor-pointer bg-[var(--primary-yellow)] w-fit h-fit flex justify-center items-center rounded-full fixed bottom-[8rem] left-[80vw]"
           >
             <CurrencyCircleDollar className="m-2" size={50} weight="bold" />
-          </div>
-        </motion.div>
+          </motion.div>
+        </>
       )}
     </LayoutNavBar>
   );
