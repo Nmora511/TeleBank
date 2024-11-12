@@ -14,7 +14,7 @@ export default function Modal() {
       animate={{ opacity: 1, scale: 1 }}
       className="fixed inset-0 z-10 w-screen h-screen bg-[var(--background-opacity)] flex items-center justify-center text-center"
     >
-      <div className="bg-[var(--background)] border-[var(--primary-yellow)] border-2 rounded-md w-fit max-w-[70%] h-fit max-h-[80%] flex flex-col items-center justify-center text-center">
+      <div className="bg-[var(--background)] border-[var(--primary-yellow)] border-2 rounded-md w-fit max-w-[70%] h-fit max-h-[95%] flex flex-col items-center justify-center text-center">
         <div className="w-full flex justify-end">
           <XCircle
             onClick={() => {
