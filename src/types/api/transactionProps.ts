@@ -1,3 +1,10 @@
+export type QuickTransactionProps = {
+  friends: string[];
+  value: number;
+  message: string;
+  date: string;
+};
+
 export type TransactionProps = {
   log?: Transaction[];
   balance?: number;
