@@ -27,7 +27,7 @@ export default async function handler(
         return res.status(400).json({ message: `Mensagem inválida.` });
       }
 
-      const dateFormatted = moment(date);
+      const dateFormatted = moment(date, "YYYY-MM-DD/HH:mm");
       if (!dateFormatted.isValid()) {
         return res.status(400).json({ message: `Data inválida.` });
       }
