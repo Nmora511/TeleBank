@@ -9,11 +9,20 @@ import Card from "@/components/homeComponents/Card";
 import { friends, friendsProps } from "@/types/api/friendsProps";
 import Loading from "@/components/UtilComponents/Loading";
 import LayoutNavBar from "../layoutNavBar";
+import { CurrencyCircleDollar } from "phosphor-react";
+import { useModalContext } from "@/contexts/ModalContext";
+import QuickTransactionModal from "@/components/UtilComponents/Modals/QuickTransaction";
 
 export default function Home() {
   const router = useRouter();
+  const { setModalIsOpen, setModalContent } = useModalContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [friendsList, setFriendsList] = useState<friends[]>([]);
+
+  const quickTransaction = () => {
+    setModalContent(<QuickTransactionModal friendsList={friendsList} />);
+    setModalIsOpen(true);
+  };
 
   useEffect(() => {
     api
@@ -77,6 +86,12 @@ export default function Home() {
               </h1>
             )}
           </motion.div>
+          <div
+            onClick={quickTransaction}
+            className="z-40 cursor-pointer m-2 bg-[var(--primary-yellow)] w-fit h-fit flex justify-center items-center rounded-full sticky bottom-[8rem] left-[80vw]"
+          >
+            <CurrencyCircleDollar className="m-2" size={50} weight="bold" />
+          </div>
         </motion.div>
       )}
     </LayoutNavBar>
