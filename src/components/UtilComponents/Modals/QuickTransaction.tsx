@@ -23,7 +23,9 @@ export default function QuickTransactionModal({
 }: QuickTransactionModalProps) {
   const { setModalIsOpen } = useModalContext();
   const [myUsername, setMyUsername] = useState<string>("");
-  const [date, setDate] = useState<string>(moment().format("YYYY-MM-DDTHH:mm"));
+  const [date, setDate] = useState<string>(
+    moment().format("DD-MM-YYYY/hh:mma"),
+  );
   const [value, setValue] = useState<number>(0);
   const [message, setMessage] = useState<string>("");
   const [selectedFriends, setSelectedFriends] = useState<string[]>([]);
@@ -101,7 +103,7 @@ export default function QuickTransactionModal({
           <h1 className="font-bold">DE: {myUsername}</h1>
         </div>
         <div className="text-center w-full flex justify-center items-center ">
-          <h1 className="font-bold opacity-50">incluir você no valor?</h1>
+          <h1 className="font-bold opacity-50">Incluir você no valor?</h1>
           <Checkbox
             sx={{
               color: "var(--foreground)",
@@ -175,7 +177,7 @@ export default function QuickTransactionModal({
           </div>
 
           <div className="my-4 text-center w-fit">
-            <h1 className="font-bold">VALOR:</h1>
+            <h1 className="font-bold">VALOR TOTAL:</h1>
             <Input
               maxLength={15}
               value={moneyMask(value)}
@@ -187,7 +189,7 @@ export default function QuickTransactionModal({
 
         <div className="text-center opacity-50 w-full">
           <h1 className="mb-4 font-bold">
-            valor para cada: {moneyMask(valuePerFriend)}
+            Valor para cada: {moneyMask(valuePerFriend)}
           </h1>
         </div>
 
