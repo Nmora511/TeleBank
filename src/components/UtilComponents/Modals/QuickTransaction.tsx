@@ -100,10 +100,9 @@ export default function QuickTransactionModal({
         <div className="mt-4">
           <h1 className="font-bold">DE: {myUsername}</h1>
         </div>
-        <div className="text-center opacity-50 w-full flex justify-center items-center ">
-          <h1 className="font-bold">incluir você no valor?</h1>
+        <div className="text-center w-full flex justify-center items-center ">
+          <h1 className="font-bold opacity-50">incluir você no valor?</h1>
           <Checkbox
-            // color= #d39918
             sx={{
               color: "var(--foreground)",
               "&.Mui-checked": {
